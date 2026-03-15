@@ -1,0 +1,30 @@
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Backend - Composer
+backend/vendor/
+backend/composer.lock
+
+# Frontend - Node
+frontend/node_modules/
+frontend/.env
+frontend/.env.local
+frontend/dist/
+frontend/build/
+
+# Docker
+docker-compose.override.yml
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDEs
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
