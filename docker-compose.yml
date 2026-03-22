@@ -6,7 +6,7 @@ services:
     container_name: php_app
     restart: unless-stopped
     env_file:
-      - .env
+      - ./backend/.env
     ports:
       - "8000:80"
     depends_on:
