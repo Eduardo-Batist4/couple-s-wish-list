@@ -5,25 +5,27 @@ declare(strict_types=1);
 require_once __DIR__ . '/../vendor/autoload.php';
 
 $dotenv = [
-    'DB_HOST', 'DB_PORT', 'DB_NAME', 'DB_USER', 'DB_PASS'
+    'DB_HOST', 'DB_PORT', 'DB_NAME', 'DB_USER', 'DB_PASS', 'JWT_SECRET'
 ];
 
 foreach ($dotenv as $key) {
     $_ENV[$key] = getenv($key) ?: '';
 }
 
-use App\Database\Connection;
+header("Content-Type: application/json");
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type");
 
-$pdo = Connection::getInstance();
+if($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit();
+}
 
-echo json_encode(['message' => 'Database connected successfully!']);
+use App\Routes\Router;
 
-//     header("Access-Control-Allow-Origin: http://localhost:5173");
-//     header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
-//     header("Access-Control-Allow-Headers: Content-Type");
-//     header("Content-Type: application/json");
+$router = new Router();
 
-// if($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-//     http_response_code(200);
-//     exit();
-// }
+require_once __DIR__ . "/../src/Routes/api.php";
+
+$router->dispatch();
