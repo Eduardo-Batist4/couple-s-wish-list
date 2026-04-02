@@ -11,6 +11,25 @@ foreach (['DB_HOST', 'DB_PORT', 'DB_NAME', 'DB_USER', 'DB_PASS'] as $key) {
 use App\Database\Connection;
 
 $pdo = Connection::getInstance();
+$command = $argv[1] ?? 'migrate';
+
+if ($command === 'fresh') {
+    echo "Dropping all tables..." . PHP_EOL;
+
+    $pdo->exec("SET FOREIGN_KEY_CHECKS = 0");
+
+    $tables = $pdo->query("SHOW TABLES")->fetchAll(PDO::FETCH_COLUMN);
+
+    foreach ($tables as $table) {
+        $pdo->exec("DROP TABLE IF EXISTS `{$table}`");
+        echo "✔ Dropped: {$table}" . PHP_EOL;
+    }
+
+    $pdo->exec("SET FOREIGN_KEY_CHECKS = 1");
+
+    echo "All tables dropped!" . PHP_EOL . PHP_EOL;
+}
+
 
 $pdo->exec("
     CREATE TABLE IF NOT EXISTS migrations (
