@@ -31,6 +31,10 @@ class Connection
                     PDO::ATTR_EMULATE_PREPARES => false,
                 ]);
             } catch (PDOException $error) {
+                if (php_sapi_name() === 'cli') {
+                    die("Database connection failed: " . $error->getMessage() . PHP_EOL);
+                }
+
                 http_response_code(500);
                 die(json_encode(['error' => 'Database connection failed']));
             }
