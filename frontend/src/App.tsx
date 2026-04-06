@@ -1,7 +1,9 @@
-function App() {
+import Login from "./Pages/Login";
+
+export default function App() {
   return(
-    <h1>oi</h1>
+    <>
+    <Login />
+    </>
   )
 }
-
-export default App
